@@ -1,0 +1,12 @@
+regolith.wallpaper.file: /usr/share/backgrounds/hardy_wallpaper_uhd.png
+
+i3-wm.bar.position:bottom
+gtk.terminal.use-transparent-background:true
+
+
+*dpi:120
+Xft.dpi:120
+
+!regolith.look.path: /usr/share/regolith-look/gruvbox
+regolith.wallpaper.file: /usr/share/backgrounds/hardy_wallpaper_uhd.png
+regolith.look.path: /usr/share/regolith-look/default
