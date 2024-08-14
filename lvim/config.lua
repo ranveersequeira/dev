@@ -1,8 +1,3 @@
--- Read the docs: https://www.lunarvim.org/docs/configuration
--- Example configs: https://github.com/LunarVim/starter.lvim
--- Video Tutorials: https://www.youtube.com/watch?v=sFA9kX-Ud_c&list=PLhoH5vyxr6QqGu0i7tt_XoVK9v-KvZ3m6
--- Forum: https://www.reddit.com/r/lunarvim/
--- Discord: https://discord.com/invite/Xb9B4Ny
 vim.opt.relativenumber = true
 lvim.builtin.terminal.open_mapping = "<c-t>"
 lvim.builtin.lualine.options.theme = "gruvbox"
@@ -21,7 +16,7 @@ vim.opt.smartindent = true
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.foldmethod = 'indent'
-vim.opt.foldlevel = 80
+vim.opt.foldlevel = 60
 vim.keymap.set("n", 'Leader<>sR', "<CMD>lua require('telescope).extensions.git_worktree.create_git_worktree()<CR>")
 vim.keymap.set("n", 'Leader<>sr', "<CMD>lua require('telescope).extensions.git_worktree.git_worktree()<CR>")
 -- Change '<C-g>' here to any keycode you like.
@@ -64,7 +59,8 @@ lvim.plugins = {
   --   end,
   -- },
   {
-  'Exafunction/codeium.vim',
-  event = 'BufEnter'
-}
+    'Exafunction/codeium.vim',
+    event = 'BufEnter'
+  },
+
 }
