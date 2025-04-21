@@ -1,3 +1,9 @@
+-- Read the docs: https://www.lunarvim.org/docs/configuration
+-- Example configs: https://github.com/LunarVim/starter.lvim
+-- Video Tutorials: https://www.youtube.com/watch?v=sFA9kX-Ud_c&list=PLhoH5vyxr6QqGu0i7tt_XoVK9v-KvZ3m6
+-- Forum: https://www.reddit.com/r/lunarvim/
+-- Discord: https://discord.com/invite/Xb9B4Ny
+--
 vim.opt.relativenumber = true
 lvim.builtin.terminal.open_mapping = "<c-t>"
 lvim.builtin.lualine.options.theme = "gruvbox"
@@ -17,14 +23,20 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.foldmethod = 'indent'
 vim.opt.foldlevel = 60
-vim.keymap.set("n", 'Leader<>sR', "<CMD>lua require('telescope).extensions.git_worktree.create_git_worktree()<CR>")
-vim.keymap.set("n", 'Leader<>sr', "<CMD>lua require('telescope).extensions.git_worktree.git_worktree()<CR>")
--- Change '<C-g>' here to any keycode you like.
-vim.keymap.set('i', '<C-g>', function() return vim.fn['codeium#Accept']() end, { expr = true, silent = true })
-vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true, silent = true })
-vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true, silent = true })
-vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true, silent = true })
-vim.keymap.set('i', '<c-s>', function() return vim.fn['codeium#Complete']() end, { expr = true, silent = true })
+
+local formatters = require "lvim.lsp.null-ls.formatters"
+formatters.setup {
+  { name = "black" },
+  {
+    name = "prettier",
+    ---@usage arguments to pass to the formatter
+    -- these cannot contain whitespace
+    -- options such as --line-width 80 become either {"--line-width", "80"} or {"--line-width=80"}
+    args = { "--print-width", "150" },
+    ---@usage only start in these filetypes, by default it will attach to all filetypes it supports
+    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+  },
+}
 lvim.plugins = {
   {
     "f-person/git-blame.nvim",
@@ -51,6 +63,54 @@ lvim.plugins = {
       "nvim-tree/nvim-web-devicons"
     },
   },
+  {
+    "supermaven-inc/supermaven-nvim",
+    config = function()
+      require("supermaven-nvim").setup({
+        keymaps = {
+          accept_suggestion = "<Tab>",
+          clear_suggestion = "<C-d>",
+          accept_word = "<C-j>",
+        },
+        ignore_filetypes = { cpp = true }, -- or { "cpp", }
+        color = {
+          suggestion_color = "#ebdbb2",    -- light beige, readable on dark
+          cterm = 244,
+        },
+        log_level = "info",                -- set to "off" to disable logging completely
+        disable_inline_completion = false, -- disables inline completion for use with cmp
+        disable_keymaps = false,           -- disables built in keymaps for more manual control
+        condition = function()
+          return false
+        end -- condition to check for stopping supermaven, true means to stop supermaven when the condition is true.
+      })
+    end,
+  },
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    ---@type snacks.Config
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+      bigfile = { enabled = true },
+      dashboard = { enabled = false },
+      explorer = { enabled = false },
+      indent = { enabled = true },
+      input = { enabled = false },
+      picker = { enabled = true },
+      notifier = { enabled = false },
+      quickfile = { enabled = true },
+      scope = { enabled = true },
+      scroll = { enabled = false },
+      statuscolumn = { enabled = true },
+      words = { enabled = true },
+      git = { enabled = true },
+    },
+  }
+
   -- {
   --   'ThePrimeagen/git-worktree.nvim',
   --   config = function()
@@ -58,9 +118,7 @@ lvim.plugins = {
   --     require("telescope").load_extension("git_worktree")
   --   end,
   -- },
-  {
-    'Exafunction/codeium.vim',
-    event = 'BufEnter'
-  },
+
+
 
 }
