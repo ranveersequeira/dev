@@ -26,6 +26,8 @@ And about window managers, I've danced with Gnome, flirted with Sway, and had a 
 - [Regolith](https://regolith-desktop.com/)
 - [Wezterm](https://wezfurlong.org/wezterm/)
 - [Zap ZSH](https://www.zapzsh.com/)
+Switched to Nushell from zsh
+- [Nushell](https://www.nushell.sh/)
 - [LunarVim](https://www.lunarvim.org/)
 - [Lazygit](https://github.com/jesseduffield/lazygit)
 
