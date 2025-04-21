@@ -24,19 +24,50 @@ vim.opt.shiftwidth = 2
 vim.opt.foldmethod = 'indent'
 vim.opt.foldlevel = 60
 
-local formatters = require "lvim.lsp.null-ls.formatters"
-formatters.setup {
-  { name = "black" },
-  {
-    name = "prettier",
-    ---@usage arguments to pass to the formatter
-    -- these cannot contain whitespace
-    -- options such as --line-width 80 become either {"--line-width", "80"} or {"--line-width=80"}
-    args = { "--print-width", "150" },
-    ---@usage only start in these filetypes, by default it will attach to all filetypes it supports
-    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-  },
+lvim.format_on_save = {
+  pattern = { "*.js", "*.ts", "*.jsx", "*.tsx" },
 }
+
+
+-- //MACROS
+local esc = vim.api.nvim_replace_termcodes("<Esc>", true, true, true)
+vim.api.nvim_create_augroup("JSLogMacro", { clear = true })
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = "JSLogMacro",
+  pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact", "tsx", "jsx", "js" },
+  callback = function()
+    vim.fn.setreg('l', "yoconsole.log('" .. esc .. "pa:" .. esc .. "la," .. esc .. "pl")
+  end
+
+})
+
+
+-- FORMATTER
+-- LSP servers
+lvim.lsp.installer.setup.ensure_installed = {
+  "tsserver",
+  "eslint",
+}
+
+-- Formatters
+local formatters = require("lvim.lsp.null-ls.formatters")
+formatters.setup({
+  {
+    command = "prettier",
+    filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json", "yaml", "markdown", "html", "css", "scss" },
+  },
+})
+
+-- Linters (optional, but eslint is useful)
+local linters = require("lvim.lsp.null-ls.linters")
+linters.setup({
+  {
+    command = "eslint",
+    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+  },
+})
+
 lvim.plugins = {
   {
     "f-person/git-blame.nvim",
@@ -109,7 +140,9 @@ lvim.plugins = {
       words = { enabled = true },
       git = { enabled = true },
     },
-  }
+  }, {
+  "williamboman/mason.nvim"
+}
 
   -- {
   --   'ThePrimeagen/git-worktree.nvim',
