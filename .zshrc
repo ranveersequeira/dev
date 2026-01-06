@@ -5,6 +5,25 @@ plug "zap-zsh/supercharge"
 plug "zap-zsh/zap-prompt"
 plug "zsh-users/zsh-syntax-highlighting"
 
+#VIM mode 
+set -o vi
+export KEYTIMEOUT=1
+
+bindkey -M viins 'jk' vi-cmd-mode
+bindkey '^?' backward-delete-char
+bindkey '^H' backward-delete-char
+
+function zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]]; then
+    echo -ne '\e[1 q'
+  else
+    echo -ne '\e[5 q'
+  fi
+}
+zle -N zle-keymap-select
+echo -ne '\e[5 q'
+
+
 # Load and initialise completion system
 autoload -Uz compinit
 compinit
