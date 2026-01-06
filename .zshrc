@@ -1,11 +1,13 @@
 # Created by Zap installer
-[ -f "$HOME/.local/share/zap/zap.zsh" ] && source "$HOME/.local/share/zap/zap.zsh"
+[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 plug "zsh-users/zsh-autosuggestions"
 plug "zap-zsh/supercharge"
 plug "zap-zsh/zap-prompt"
 plug "zsh-users/zsh-syntax-highlighting"
 
-# pnpm
+# Load and initialise completion system
+autoload -Uz compinit
+compinit
 export PNPM_HOME="/home/ranveersequeira/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
@@ -42,8 +44,12 @@ alias gnb="git checkout -b"
 alias nr="npm run"
 alias gpd="git pull origin development"
 alias rnt="detox test -c android.emu.debug"
+alias npm="pnpm"
+alias gwa="git worktree add "
+alias gwr="git worktree remove"
+alias gwl="git worktree list"
 
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
 
-PATH=~/.console-ninja/.bin:$PATH
+
+# Added by Antigravity
+export PATH="/Users/devkraft/.antigravity/antigravity/bin:$PATH"
