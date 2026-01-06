@@ -1,0 +1,146 @@
+# ~/.aerospace.toml - Modified for a Regolith i3-like experience
+#
+# Key changes:
+# - The primary modifier key is now 'option' (to act as the 'super' key)
+# - alt-enter opens a new terminal instance
+# - alt-b opens a new Google Chrome instance
+# - Gaps are enabled for a more traditional tiling look
+# - Important macOS shortcut conflicts are addressed (see notes below)
+
+# --- CONFIG ---
+
+after-startup-command = []
+start-at-login = true
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+accordion-padding = 30
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# This is important for using 'option' as the main modifier key.
+# It prevents 'alt-h' from hiding windows, allowing it to be used for 'focus left'.
+automatically-unhide-macos-hidden-apps = true
+
+[key-mapping]
+    preset = 'qwerty'
+
+# Gaps are added for a better visual separation of windows, common in i3 setups.
+[gaps]
+    inner.horizontal = 2
+    inner.vertical =   2
+    outer.left =       2
+    outer.bottom =     2
+    outer.top =        2
+    outer.right =      2
+
+# --- BINDINGS ---
+
+[mode.main.binding]
+    # MOD = option
+
+    # --- Application Launchers ---
+    # Opens a new terminal instance every time
+
+    # Opens a completely new Google Chrome window every time.
+    alt-b = 'exec-and-forget open -n -a "Google Chrome"'
+
+
+    # --- Layouts ---
+    alt-slash = 'layout tiles horizontal vertical'
+    alt-comma = 'layout accordion horizontal vertical'
+
+
+    # --- Window Focus & Movement (i3-style with h,j,k,l) ---
+    alt-h = 'focus left'
+    alt-j = 'focus down'
+    alt-k = 'focus up'
+    alt-l = 'focus right'
+
+    alt-shift-h = 'move left'
+    alt-shift-j = 'move down'
+    alt-shift-k = 'move up'
+    alt-shift-l = 'move right'
+
+
+    # --- Window Resizing ---
+    alt-minus = 'resize smart -50'
+    alt-equal = 'resize smart +50'
+
+
+    # --- Workspace Navigation ---
+    alt-1 = 'workspace 1'
+    alt-2 = 'workspace 2'
+    alt-3 = 'workspace 3'
+    alt-4 = 'workspace 4'
+    alt-5 = 'workspace 5'
+    alt-6 = 'workspace 6'
+    alt-7 = 'workspace 7'
+    alt-8 = 'workspace 8'
+    alt-9 = 'workspace 9'
+    alt-0 = 'workspace 10' # Example for workspace 10
+
+    alt-shift-1 = 'move-node-to-workspace 1'
+    alt-shift-2 = 'move-node-to-workspace 2'
+    alt-shift-3 = 'move-node-to-workspace 3'
+    alt-shift-4 = 'move-node-to-workspace 4'
+    alt-shift-5 = 'move-node-to-workspace 5'
+    alt-shift-6 = 'move-node-to-workspace 6'
+    alt-shift-7 = 'move-node-to-workspace 7'
+    alt-shift-8 = 'move-node-to-workspace 8'
+    alt-shift-9 = 'move-node-to-workspace 9'
+    alt-shift-0 = 'move-node-to-workspace 10' # Example for workspace 10
+
+
+    # --- Workspace Utilities ---
+    # IMPORTANT: 'alt-tab' is the default macOS app switcher.
+    # Overriding it can be jarring. 'alt-backtick' (the ` key) is a common alternative.
+    alt-backtick = 'workspace-back-and-forth'
+    alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+
+    # --- Modes ---
+    # Enter service mode to reload config, reset layouts, etc.
+    alt-shift-semicolon = 'mode service'
+
+# --- Disable Default Letter Workspace Bindings ---
+alt-a = []
+alt-c = []
+alt-d = []
+alt-e = []
+alt-f = []
+alt-g = []
+alt-i = []
+alt-m = []
+alt-n = []
+alt-o = []
+alt-p = []
+alt-q = []
+alt-r = []
+alt-s = []
+alt-t = []
+alt-u = []
+alt-v = []
+alt-w = []
+alt-x = []
+alt-y = []
+alt-z = []
+
+
+[workspace-to-monitor-force-assignment]
+10 = 'secondary'
+[mode.service.binding]
+    # Exit service mode and go back to main
+    esc = ['reload-config', 'mode main']
+    
+    # Reload config: press alt-shift-semicolon, then r
+    r = ['reload-config', 'mode main']
+
+    # Reset layout for the current workspace
+    f = ['flatten-workspace-tree', 'mode main']
+
+    # Toggle between floating and tiling for a window
+    shift-f = ['layout floating tiling', 'mode main']
+
+    # Close all windows on the workspace except the focused one
+    backspace = ['close-all-windows-but-current', 'mode main']
